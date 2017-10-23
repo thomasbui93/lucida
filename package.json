@@ -2,16 +2,18 @@
   "name": "lucida",
   "version": "1.0.0",
   "description": "Note Taking Api",
-  "main": "index.js",
   "author": "thomasbui93@gmail.com",
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "compression": "^1.7.1",
     "express": "^4.16.2",
     "mongoose": "^4.12.4",
     "mongoose-beautiful-unique-validation": "^7.0.0",
     "mongoose-paginate": "^5.0.3",
-    "mongoose-timestamp": "^0.6.0"
+    "mongoose-timestamp": "^0.6.0",
+    "normalize-port": "^1.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -26,5 +28,13 @@
     "eslint-plugin-node": "^5.2.1",
     "mocha": "^4.0.1",
     "nodemon": "^1.12.1"
+  },
+  "scripts": {
+    "start": "node ./build/app.js",
+    "dev": "nodemon ./src/index.js -L",
+    "lint-fix": "eslint src/**/**/*.js --fix",
+    "linter": "eslint src/**/**/*.js",
+    "test": "mocha --recursive --compilers js:babel-core/register --require babel-polyfill -- src/test/**/*.js",
+    "build": "rm -rf build && babel src -d build"
   }
 }

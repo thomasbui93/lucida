@@ -1,2 +1,2 @@
-server/test/**
+src/test/**
 node_modules

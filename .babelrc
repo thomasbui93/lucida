@@ -1,0 +1,7 @@
+{
+  "presets": ["env"],
+  "plugins": [
+    "babel-plugin-transform-async-to-generator",
+    "syntax-async-functions"
+  ]
+}

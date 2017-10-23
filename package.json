@@ -1,0 +1,30 @@
+{
+  "name": "lucida",
+  "version": "1.0.0",
+  "description": "Note Taking Api",
+  "main": "index.js",
+  "author": "thomasbui93@gmail.com",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^4.12.4",
+    "mongoose-beautiful-unique-validation": "^7.0.0",
+    "mongoose-paginate": "^5.0.3",
+    "mongoose-timestamp": "^0.6.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-async-await": "^0.0.0",
+    "eslint-plugin-node": "^5.2.1",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.12.1"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "database": {
+   "mongodb": {
+    "host": "localhost",
+    "port": 27017,
+    "name": "astrum",
+    "username": "astrum",
+    "password": "astrum"
+   }
+  },
+  "collection": {
+    "page_size": 2
+  }
+}

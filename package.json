@@ -34,7 +34,7 @@
     "dev": "nodemon ./src/index.js -L",
     "lint-fix": "eslint src/**/**/*.js --fix",
     "linter": "eslint src/**/**/*.js",
-    "test": "mocha --recursive --compilers js:babel-core/register --require babel-polyfill -- src/test/**/*.js",
+    "test": "mocha --recursive --compilers js:babel-core/register --require babel-polyfill -- src/tests/**/*.js",
     "build": "rm -rf build && babel src -d build"
   }
 }

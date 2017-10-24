@@ -27,7 +27,9 @@
     "eslint-plugin-async-await": "^0.0.0",
     "eslint-plugin-node": "^5.2.1",
     "mocha": "^4.0.1",
-    "nodemon": "^1.12.1"
+    "mongoose-mock": "^0.4.0",
+    "nodemon": "^1.12.1",
+    "sinon": "^4.0.1"
   },
   "scripts": {
     "start": "node ./build/app.js",

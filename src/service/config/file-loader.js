@@ -15,8 +15,8 @@ export const getConfig = (envFilePath = 'env.json') => {
 
 /**
  * Read config by paths
- * @param {*} paths 
- * @param {*} delimiter  
+ * @param {*} paths
+ * @param {*} delimiter
  */
 export const readConfig = (paths, delimiter = '/', envFilePath = 'env.json') => {
   let configSource = getConfig(envFilePath);
@@ -37,4 +37,4 @@ export const readConfig = (paths, delimiter = '/', envFilePath = 'env.json') => 
   } else {
     return undefined;
   }
-}
+};

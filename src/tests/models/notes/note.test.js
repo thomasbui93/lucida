@@ -3,7 +3,7 @@ import {stub, assert, match} from 'sinon';
 import {expect} from 'chai';
 
 /**
- * Unit test
+ * Unit test for validation
  */
 describe('Note Model validation', () => {
   it('should validate successfully according to to the schema', (done) => {
@@ -24,6 +24,9 @@ describe('Note Model validation', () => {
 
 });
 
+/**
+ * Unit testing for getItems method
+ */
 describe('#getItems', () => {
   before(()=> {
     stub(NoteApi, 'paginate');

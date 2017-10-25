@@ -3,7 +3,7 @@ import timestamps from 'mongoose-timestamp';
 import paginate from 'mongoose-paginate';
 import beautifyUnique from 'mongoose-beautiful-unique-validation';
 import { readConfig } from './../../service/config/file-loader';
-
+import FolderApi from './folder';
 /**
  * Pagination setting
  */
@@ -100,6 +100,31 @@ class NoteSchema {
 
     return this.paginate(queryObject, pagination);
   }
+
+  async saveNote(noteData, noteID) {
+    try {
+      let note;
+      let noteId;
+      if (!noteID) {
+        note = new this(noteData);
+        note = await note.save();
+        // eslint-disable-next-line no-underscore-dangle
+        noteId = note._id;
+      } else {
+        note = await this.findByIdAndUpdate(noteID, noteData);
+        noteId = noteID;
+      }
+      if (note.folder) {
+        await FolderApi.findOneAndUpdate(note.folder, {
+          $addToSet: { notes: noteId }
+        });
+        return note;
+      }
+      return false;
+    } catch (err) {
+      return false;
+    }
+  }
 }
 /**
  * Bootstrap model
@@ -116,4 +141,5 @@ schema.index({ title: 'text', content: 'text' }, { weights: { title: 2, content:
 schema.pre('find', autoPopulate);
 schema.pre('findOne', autoPopulate);
 
-export default mongoose.model('Note', schema);
+const NoteApi = mongoose.model('Note', schema);
+export default NoteApi;

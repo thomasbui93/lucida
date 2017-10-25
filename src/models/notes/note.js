@@ -17,6 +17,7 @@ const ORDER_BY = readConfig('collection/sort') || {
  * autopopulate
  * @param {*} next
  */
+// eslint-disable-next-line func-names
 const autoPopulate = function (next) {
   this.populate('folder');
   next();

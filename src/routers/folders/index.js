@@ -4,9 +4,9 @@ import { index, read, create, update, remove } from './controllers';
 const router = Router();
 
 router.get('/', index);
-router.get('/:noteId', read);
+router.get('/:folderId', read);
 router.post('/', create);
-router.put('/:noteId', update);
-router.delete('/:noteId', remove);
+router.put('/:folderId', update);
+router.delete('/:folderId', remove);
 
 export default router;

@@ -16,7 +16,8 @@
       "error",
       "module.exports"
     ],
-    "node/no-unsupported-features": 0
+    "node/no-unsupported-features": 0,
+    "no-underscore-dangle": "off"
   },
   "env": {
     "es6": true

@@ -21,6 +21,13 @@ connectToDB().then(()=> {
   loggerService('Failed to connect to MongoDB', err);
 })
 
+//config routes
+import routes from './routers';
+routes(app);
+
+//end config routes
+app.use('/upload', express.static('upload'));
+
 /**
  * Init the server
  */

@@ -108,7 +108,6 @@ class NoteSchema {
       if (!noteID) {
         note = new this(noteData);
         note = await note.save();
-        // eslint-disable-next-line no-underscore-dangle
         noteId = note._id;
       } else {
         note = await this.findByIdAndUpdate(noteID, noteData);

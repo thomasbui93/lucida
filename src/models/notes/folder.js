@@ -1,6 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
 import timestamps from 'mongoose-timestamp';
-import NoteApi from './note';
 /**
  * autopopulate
  * @param {*} next
@@ -35,22 +34,22 @@ const schema = new Schema({
 });
 
 class FolderSchema {
-
-  static async saveFolder(folderId, folderData) {
+  static async saveFolder(folderData, folderId) {
     try {
       const folder = await this.findByIdAndUpdate(folderId, folderData);
-      
-      if(typeof folderData.children === 'array' && folderData.children.length > 0){
+
+      if (folderData.children instanceof Array && folderData.children.length > 0) {
         await Promise.all(folderData.children.forEach((child)=>{
-          return this.findByIdAndUpdate(child, { parent: folder._id })
-        }))
+          return this.findByIdAndUpdate(child, { parent: folder._id });
+        }));
       }
 
-      if(typeof folder.parent !== 'undefined'){
-        await this.findByIdAndUpdate(folder.parent, { $addToSet: { children: folder._id } })        
+      if (typeof folder.parent !== 'undefined') {
+        await this.findByIdAndUpdate(folder.parent, { $addToSet: { children: folder._id } });
       }
-      
-    } catch(err) {
+
+      return folder;
+    } catch (err) {
       return false;
     }
   }

@@ -101,7 +101,7 @@ class NoteSchema {
     return this.paginate(queryObject, pagination);
   }
 
-  async saveNote(noteData, noteID) {
+  static async saveNote(noteData, noteID) {
     try {
       let note;
       let noteId;

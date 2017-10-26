@@ -8,8 +8,8 @@ import FolderApi from './../../models/notes/folder';
  */
 export const index = async (req, res, next) => {
   try {
-    const folders = await FolderApi.find({parent: null});
-    res.json({ folders: folders });
+    const folders = await FolderApi.find({ parent: null });
+    res.status(200).json({ folders: folders });
   } catch (err) {
     next(err);
   }
@@ -25,7 +25,7 @@ export const read = async (req, res, next) => {
   try {
     const { folderId } = req.params;
     const folder = await FolderApi.findById(folderId).populate('notes').exec();
-    res.json({ folder: folder });
+    res.status(200).json({ folder: folder });
   } catch (err) {
     next(err);
   }
@@ -39,8 +39,8 @@ export const read = async (req, res, next) => {
  */
 export const create = async (req, res, next) => {
   try {
-    const folder = await FolderApi.saveNote(req.body);
-    res.json({ folder: folder });
+    const folder = await FolderApi.saveFolder(req.body);
+    res.status(200).json({ folder: folder });
   } catch (err) {
     next(err);
   }
@@ -56,7 +56,7 @@ export const update = async (req, res, next) => {
   try {
     const { folderId } = req.params;
     const folder = await FolderApi.saveFolder(req.body, folderId);
-    res.json({ folder: folder });
+    res.status(200).json({ folder: folder });
   } catch (err) {
     next(err);
   }
@@ -71,8 +71,8 @@ export const update = async (req, res, next) => {
 export const remove = async (req, res, next) => {
   try {
     const { folderId } = req.params;
-    const folder = await NoteApi.findByIdAndRemove(folderId);
-    res.json({ folder: folder });
+    const folder = await FolderApi.findByIdAndRemove(folderId);
+    res.status(200).json({ folder: folder });
   } catch (err) {
     next(err);
   }

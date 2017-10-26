@@ -25,7 +25,7 @@ export const read = async (req, res, next) => {
   try {
     const { noteId } = req.params;
     const note = await NoteApi.findById(noteId);
-    res.json({ note: note });
+    res.status(200).json({ note: note });
   } catch (err) {
     next(err);
   }
@@ -40,7 +40,7 @@ export const read = async (req, res, next) => {
 export const create = async (req, res, next) => {
   try {
     const note = await NoteApi.saveNote(req.body);
-    res.json({ note: note });
+    res.status(200).json({ note: note });
   } catch (err) {
     next(err);
   }
@@ -56,7 +56,7 @@ export const update = async (req, res, next) => {
   try {
     const { noteId } = req.params;
     const note = await NoteApi.saveNote(req.body, noteId);
-    res.json({ note: note });
+    res.status(200).json({ note: note });
   } catch (err) {
     next(err);
   }
@@ -72,7 +72,7 @@ export const remove = async (req, res, next) => {
   try {
     const { noteId } = req.params;
     const note = await NoteApi.findByIdAndRemove(noteId);
-    res.json({ note: note });
+    res.status(200).json({ note: note });
   } catch (err) {
     next(err);
   }

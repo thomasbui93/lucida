@@ -3,7 +3,6 @@ import timestamps from 'mongoose-timestamp';
 import paginate from 'mongoose-paginate';
 import beautifyUnique from 'mongoose-beautiful-unique-validation';
 import { readConfig } from './../../service/config/file-loader';
-import FolderApi from './folder';
 /**
  * Pagination setting
  */
@@ -104,24 +103,24 @@ class NoteSchema {
   static async saveNote(noteData, noteID) {
     try {
       let note;
-      let noteId;
       if (!noteID) {
         note = new this(noteData);
         note = await note.save();
-        noteId = note._id;
       } else {
         note = await this.findByIdAndUpdate(noteID, noteData);
-        noteId = noteID;
       }
-      if (note.folder) {
-        await FolderApi.findOneAndUpdate(note.folder, {
-          $addToSet: { notes: noteId }
-        });
-        return note;
-      }
-      return false;
+      return note;
     } catch (err) {
-      return false;
+      throw new Error(err);
+    }
+  }
+
+  static async removeNote(noteId) {
+    try {
+      const note = await this.findByIdAndRemove(noteId);
+      return note;
+    } catch (err) {
+      throw new Error(err);
     }
   }
 }

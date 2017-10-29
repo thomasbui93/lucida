@@ -6,9 +6,18 @@
     "name": "astrum",
     "username": "astrum",
     "password": "astrum"
+   },
+   "redis": {
+     
    }
   },
+  "server": {
+    "port": 8000
+  },
   "collection": {
-    "page_size": 2
+    "page-size": 2,
+    "sort": {
+      "createdAt": -1
+    }
   }
 }

@@ -1,12 +1,13 @@
 import mongoose, { Schema } from 'mongoose';
 import timestamps from 'mongoose-timestamp';
+import NoteApi from './note';
 /**
  * autopopulate
  * @param {*} next
  */
 // eslint-disable-next-line func-names
 const autoPopulate = function (next) {
-  this.populate('parent children');
+  this.populate('parent');
   next();
 };
 
@@ -19,38 +20,53 @@ const schema = new Schema({
     index: true,
     required: true
   },
-  children: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Folder'
-  }],
   parent: {
     type: Schema.Types.ObjectId,
     ref: 'Folder'
-  },
-  notes: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Note'
-  }]
+  }
 });
 
 class FolderSchema {
   static async saveFolder(folderData, folderId) {
     try {
-      const folder = await this.findByIdAndUpdate(folderId, folderData);
-
-      if (folderData.children instanceof Array && folderData.children.length > 0) {
-        await Promise.all(folderData.children.forEach((child)=>{
-          return this.findByIdAndUpdate(child, { parent: folder._id });
-        }));
+      let folder;
+      if (folderId) {
+        folder = await this.findByIdAndUpdate(folderId, folderData, {new: true});
+      } else {
+        folder = new this(folderData);
+        folder = await folder.save();
       }
-
-      if (typeof folder.parent !== 'undefined') {
-        await this.findByIdAndUpdate(folder.parent, { $addToSet: { children: folder._id } });
-      }
-
       return folder;
     } catch (err) {
-      return false;
+      throw new Error(err);
+    }
+  }
+
+  static async removeFolder(folderId) {
+    try {
+      const folder = await this.findByIdAndRemove(folderId);
+      const children = await this.find({
+        parent: folderId
+      });
+      await Promise.all(children.map( child => {
+        return this.removeFolder(child._id);
+      }));
+      return folder;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  static async getFolder(folderId) {
+    try {
+      const folder = await this.findById(folderId).exec();
+      const notes = await NoteApi.find({ folder: folderId });
+      const children = await this.find({
+        parent: folder._id
+      });
+      return Object.assign({}, folder.toObject(), {notes:notes, children: children});
+    } catch (err) {
+      throw new Error(err);
     }
   }
 }

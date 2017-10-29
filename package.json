@@ -38,7 +38,7 @@
     "dev": "nodemon ./src/index.js -L",
     "prettifier": "eslint src/**/**/*.js --fix",
     "linter": "eslint src/**/**/*.js",
-    "test": "mocha --recursive --compilers js:babel-core/register --require babel-polyfill -- src/tests/**/*.js",
+    "test": "NODE_ENV=test mocha --exit --recursive --compilers js:babel-core/register --require babel-polyfill -- src/tests/**/*.js ",
     "build": "rm -rf build && babel src -d build",
     "precommit": "npm run prettifier",
     "prepush": "npm test"

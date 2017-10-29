@@ -2,6 +2,7 @@ import { index, read, create, update, remove } from './../../../routers/folders/
 import {stub, spy, assert } from 'sinon';
 import httpMocks from 'node-mocks-http';
 import FolderApi from '../../../models/notes/folder';
+import {Types} from 'mongoose';
 
 describe('#index', () => {
   before(()=>{
@@ -18,22 +19,38 @@ describe('#index', () => {
 
 describe('#read', () => {
   before(()=>{
-    stub(FolderApi, 'findById');
+    stub(FolderApi, 'getFolder');
   })
 
-  it('shoud call findById with correct params', async () => {
+  it('shoud call getFolder with correct params', async () => {
     const next = spy();
-    const folderId = '123';
+    const folderId = Types.ObjectId();
     const request  = httpMocks.createRequest({
       method: 'GET',
       params: {
         folderId: folderId
       }
     });
+    const response = httpMocks.createResponse();
+    await read(request, response, next);
 
-    await read(request, {}, next);
+    assert.calledWith(FolderApi.getFolder, folderId);
+  })
 
-    assert.calledWith(FolderApi.findById, folderId);
+  it('shoud not call getFolder if folderId is not a valid ObjectId', async () => {
+    const next = spy();
+    const folderId = '12132..asd.asd.';
+    const request  = httpMocks.createRequest({
+      method: 'GET',
+      params: {
+        folderId: folderId
+      }
+    });
+    const response = httpMocks.createResponse();
+
+    await read(request, response, next);
+
+    assert.calledOnce(FolderApi.getFolder);
   })
 })
 

@@ -7,7 +7,8 @@ import path from 'path';
  */
 export const getConfig = (envFilePath = 'env.json') => {
   try {
-    return JSON.parse(fs.readFileSync(path.join(process.cwd(), envFilePath), 'utf8'));
+    const envPath = envFilePath || (process.env.NODE_ENV === 'test' ? 'env-sample.json' : 'env.json');
+    return JSON.parse(fs.readFileSync(path.join(process.cwd(), envPath), 'utf8'));
   } catch (err) {
     return false;
   }

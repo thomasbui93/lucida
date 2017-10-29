@@ -8,8 +8,8 @@ import NoteApi from './../../models/notes/note';
  */
 export const index = async (req, res, next) => {
   try {
-    const notes = await NoteApi.getItems(req.query);
-    res.json({ notes: notes });
+    const collection = await NoteApi.getItems(req.query);
+    res.json({ notes: collection.docs });
   } catch (err) {
     next(err);
   }

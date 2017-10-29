@@ -1,5 +1,5 @@
 import FolderApi from './../../models/notes/folder';
-
+import {Types} from 'mongoose';
 /**
  * List all folders
  * @param req
@@ -8,8 +8,8 @@ import FolderApi from './../../models/notes/folder';
  */
 export const index = async (req, res, next) => {
   try {
-    const folders = await FolderApi.find({ parent: null });
-    res.status(200).json({ folders: folders });
+    const collection = await FolderApi.find({ parent: null });
+    res.json({ folders: collection });
   } catch (err) {
     next(err);
   }
@@ -24,9 +24,14 @@ export const index = async (req, res, next) => {
 export const read = async (req, res, next) => {
   try {
     const { folderId } = req.params;
-    const folder = await FolderApi.findById(folderId).populate('notes').exec();
-    res.status(200).json({ folder: folder });
+    if(Types.ObjectId.isValid(folderId)){
+      const folder = await FolderApi.getFolder(folderId);
+      res.status(200).json({ folder: folder });
+    } else {
+      res.status(404).json({ folder: null });
+    }
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
@@ -71,7 +76,7 @@ export const update = async (req, res, next) => {
 export const remove = async (req, res, next) => {
   try {
     const { folderId } = req.params;
-    const folder = await FolderApi.findByIdAndRemove(folderId);
+    const folder = await FolderApi.removeFolder(folderId);
     res.status(200).json({ folder: folder });
   } catch (err) {
     next(err);

@@ -2,6 +2,7 @@ import { index, read, create, update, remove } from './../../../routers/notes/co
 import {stub, assert } from 'sinon';
 import httpMocks from 'node-mocks-http';
 import NoteApi from '../../../models/notes/note';
+import {Types} from 'mongoose';
 
 describe('#index', () => {
   before(()=>{
@@ -30,7 +31,7 @@ describe('#read', () => {
 
   it('shoud call findById with correct params', async () => {
     const next = ()=> { console.log('sample') };
-    const noteId = '123';
+    const noteId = Types.ObjectId();
     const request  = httpMocks.createRequest({
       method: 'GET',
       params: {
@@ -90,7 +91,7 @@ describe('#remove', () => {
 
   it('shoud call findByIdAndRemove with correct params', async () => {
     const next = ()=> { console.log('sample') };
-    const noteId = '123';
+    const noteId = Types.ObjectId();
     const request  = httpMocks.createRequest({
       method: 'DELETE',
       params: {

@@ -15,7 +15,7 @@
     "port": 8000
   },
   "collection": {
-    "page-size": 2,
+    "page-size": 5,
     "sort": {
       "createdAt": -1
     }

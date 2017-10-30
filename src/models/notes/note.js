@@ -6,7 +6,7 @@ import { readConfig } from './../../service/config/file-loader';
 /**
  * Pagination setting
  */
-const PAGE_SIZE = readConfig('collection/page-size') || 5;
+const PAGE_SIZE = readConfig('collection/page-size') || 3;
 const CURRENT_PAGE = 1;
 const ORDER_BY = readConfig('collection/sort') || {
   createdAt: -1
@@ -65,9 +65,9 @@ class NoteSchema {
     const offset = page - 1 >= 0 ? pageSize * (page - 1) : 0;
 
     const pagination = {
-      page: page,
+      page: parseInt(page),
       offset: offset,
-      limit: pageSize,
+      limit: parseInt(pageSize),
       sort: sort
     };
 
@@ -103,11 +103,12 @@ class NoteSchema {
   static async saveNote(noteData, noteID) {
     try {
       let note;
+      noteData.tags = noteData.tags ? (noteData.tags instanceof Array ? noteData.tags : noteData.tags.split(',')): [];
       if (!noteID) {
         note = new this(noteData);
         note = await note.save();
       } else {
-        note = await this.findByIdAndUpdate(noteID, noteData);
+        note = await this.findByIdAndUpdate(noteID, noteData, {new: true});
       }
       return note;
     } catch (err) {
@@ -139,5 +140,5 @@ schema.index({ title: 'text', content: 'text' }, { weights: { title: 2, content:
 schema.pre('find', autoPopulate);
 schema.pre('findOne', autoPopulate);
 
-const NoteApi = mongoose.model('Note', schema);
+const NoteApi = mongoose.model('DraftBook', schema);
 export default NoteApi;

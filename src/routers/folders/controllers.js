@@ -1,5 +1,5 @@
 import FolderApi from './../../models/notes/folder';
-import {Types} from 'mongoose';
+import { Types } from 'mongoose';
 /**
  * List all folders
  * @param req
@@ -24,14 +24,13 @@ export const index = async (req, res, next) => {
 export const read = async (req, res, next) => {
   try {
     const { folderId } = req.params;
-    if(Types.ObjectId.isValid(folderId)){
+    if (Types.ObjectId.isValid(folderId)) {
       const folder = await FolderApi.getFolder(folderId);
       res.status(200).json({ folder: folder });
     } else {
       res.status(404).json({ folder: null });
     }
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };

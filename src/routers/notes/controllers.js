@@ -1,5 +1,5 @@
 import NoteApi from './../../models/notes/note';
-
+import { Types } from 'mongoose';
 /**
  * List all notes
  * @param req
@@ -24,8 +24,12 @@ export const index = async (req, res, next) => {
 export const read = async (req, res, next) => {
   try {
     const { noteId } = req.params;
-    const note = await NoteApi.findById(noteId);
-    res.status(200).json({ note: note });
+    if (Types.ObjectId.isValid(noteId)) {
+      const note = await NoteApi.findById(noteId);
+      res.status(200).json({ note: note });
+    } else {
+      res.status(404).json({ note: null });
+    }
   } catch (err) {
     next(err);
   }
@@ -71,8 +75,12 @@ export const update = async (req, res, next) => {
 export const remove = async (req, res, next) => {
   try {
     const { noteId } = req.params;
-    const note = await NoteApi.findByIdAndRemove(noteId);
-    res.status(200).json({ note: note });
+    if (Types.ObjectId.isValid(noteId)) {
+      const note = await NoteApi.findByIdAndRemove(noteId);
+      res.status(200).json({ note: note });
+    } else {
+      res.status(404).json({ note: null });
+    }
   } catch (err) {
     next(err);
   }

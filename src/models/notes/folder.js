@@ -31,7 +31,7 @@ class FolderSchema {
     try {
       let folder;
       if (folderId) {
-        folder = await this.findByIdAndUpdate(folderId, folderData, {new: true});
+        folder = await this.findByIdAndUpdate(folderId, folderData, { new: true });
       } else {
         folder = new this(folderData);
         folder = await folder.save();
@@ -48,7 +48,7 @@ class FolderSchema {
       const children = await this.find({
         parent: folderId
       });
-      await Promise.all(children.map( child => {
+      await Promise.all(children.map(child => {
         return this.removeFolder(child._id);
       }));
       return folder;
@@ -64,7 +64,7 @@ class FolderSchema {
       const children = await this.find({
         parent: folder._id
       });
-      return Object.assign({}, folder.toObject(), {notes:notes, children: children});
+      return Object.assign({}, folder.toObject(), { notes: notes, children: children });
     } catch (err) {
       throw new Error(err);
     }

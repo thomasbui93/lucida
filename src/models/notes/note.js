@@ -65,9 +65,9 @@ class NoteSchema {
     const offset = page - 1 >= 0 ? pageSize * (page - 1) : 0;
 
     const pagination = {
-      page: parseInt(page),
+      page: parseInt(page, 10),
       offset: offset,
-      limit: parseInt(pageSize),
+      limit: parseInt(pageSize, 10),
       sort: sort
     };
 
@@ -103,12 +103,11 @@ class NoteSchema {
   static async saveNote(noteData, noteID) {
     try {
       let note;
-      noteData.tags = noteData.tags ? (noteData.tags instanceof Array ? noteData.tags : noteData.tags.split(',')): [];
       if (!noteID) {
-        note = new this(noteData);
+        note = new this(this.normalizeData(noteData));
         note = await note.save();
       } else {
-        note = await this.findByIdAndUpdate(noteID, noteData, {new: true});
+        note = await this.findByIdAndUpdate(noteID, this.normalizeData(noteData), { new: true });
       }
       return note;
     } catch (err) {
@@ -123,6 +122,21 @@ class NoteSchema {
     } catch (err) {
       throw new Error(err);
     }
+  }
+
+  static normalizeData(note) {
+    if (!note) {
+      return note;
+    }
+    let noteTags = [];
+    if (note.tag) {
+      if (note.tag instanceof Array) {
+        noteTags = note.tags;
+      } else {
+        noteTags = note.tags.split(',');
+      }
+    }
+    return Object.assign({}, note, { tags: noteTags });
   }
 }
 /**

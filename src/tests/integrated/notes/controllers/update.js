@@ -57,7 +57,7 @@ describe('PUT /v1/api/notes/:noteId', () => {
       expect(existingNote).to.have.property('folder');
       expect(existingNote.folder).to.have.property('_id', folder._id + '');
     } catch (err) {
-      expect(err).to.have.property('status',500);
+      expect(err).to.have.property('status',400);
     }
   });
 
